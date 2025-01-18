@@ -32,16 +32,7 @@ export default function RedeemPage({
           Output Image
         </h1>
         <p className="pt-2 pb-6 text-left w-full">
-          Here is your generated image! Click the download button to save the
-          original, full-resolution png. The image is stored on our server for
-          easy retrieval, but maybe deleted after 30 days. Bookmark this page if
-          you want to come back to it later, but downloading your image is
-          recommended. You API key was not saved to our servers. Remember,
-          anyone with the link can access this image.
-        </p>
-        <p className="pt-2 pb-6 text-left w-full">
-          Do not direct link to the image from the internet. If you want to
-          share the image, download it first and then share the downloaded file.
+          Here is your generated image! 
         </p>
         <div className="flex gap-4 pb-4">
           <p className="text-sm opacity-60 bg-[rgba(0,0,0,0.4)] p-2 rounded-lg">

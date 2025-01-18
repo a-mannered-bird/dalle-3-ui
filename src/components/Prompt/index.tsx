@@ -43,6 +43,9 @@ const action = async (data: FormData) => {
     );
   }
 
+  // For testing purposes
+  // let imageUrl = "https://oaidalleapiprodscus.blob.core.windows.net/private/org-yKtLP3i376mUjM5i75EBUvf4/user-h7562yzvhFi5GOwtRJ2oph0m/img-BaZCmBydN6G8AlpMXA7ZCqCw.png?st=2025-01-18T01%3A33%3A55Z\&se=2025-01-18T03%3A33%3A55Z\&sp=r\&sv=2024-08-04\&sr=b\&rscd=inline\&rsct=image/png\&skoid=d505667d-d6c1-4a0a-bac7-5c84a87759f8\&sktid=a48cca56-e6da-484e-a814-9c849652bcb3\&skt=2025-01-18T00%3A11%3A55Z\&ske=2025-01-19T00%3A11%3A55Z\&sks=b\&skv=2024-08-04\&sig=iskRni4tKxYpMTrzcQBPYwR546io1ny4IPIZjRAQ5EA%3D"
+  
   let imageUrl = "";
 
   try {
@@ -57,52 +60,18 @@ const action = async (data: FormData) => {
       style,
     });
 
-    const url = res?.data?.[0]?.url;
+    imageUrl = res?.data?.[0]?.url || "";
 
-    if (url) {
-      const sourceImage = await fetch(url);
-      const sourceImageBuffer = await sourceImage.arrayBuffer();
-      const params = {
-        Bucket: process.env.R2_PHOTO_BUCKET!,
-        Key: `${randomUUID()}.png`,
-        Body: Buffer.from(sourceImageBuffer),
-        ContentType: "image/png",
-        ACL: "public-read",
-      };
+    console.log(res)
 
-      const r2 = new S3({
-        accessKeyId: process.env.R2_ACCESS_KEY_ID,
-        secretAccessKey: process.env.R2_SECRET_ACCESS_KEY,
-        endpoint: process.env.R2_ENDPOINT,
-        s3ForcePathStyle: true, // Required for R2 compatibility
-        signatureVersion: "v4",
-        sslEnabled: true,
-        region: "auto",
-      });
-
-      const result: any = await new Promise((resolve, reject) => {
-        r2.upload(params, (err: Error, data: any) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(data);
-          }
-        });
-      });
-
-      console.log(result);
-
-      imageUrl = result?.Key;
-    } else {
-      throw new Error("No image URL returned");
-    }
   } catch (error: any) {
     return redirect(`/error?message=${encodeURIComponent(error.message)}`);
   }
 
-  return redirect(
-    `/done?imageUrl=https://dalle.static.donley.xyz/${imageUrl}&resolution=${resolution}&style=${style}&quality=${quality}`
-  );
+  return redirect(imageUrl);
+  // return redirect(
+  //   `/done?imageUrl=${encodeURIComponent(imageUrl)}&resolution=${resolution}\&style=${style}\&quality=${quality}`
+  // );
 };
 
 export const PromptForm = () => {

@@ -12,7 +12,6 @@
     "@keegancodes/foundations": "^1.1.2",
     "@keegancodes/foundations-react": "^1.1.4",
     "@vercel/analytics": "^1.3.1",
-    "aws-sdk": "^2.1691.0",
     "geist": "^1.3.1",
     "next": "^14.2.12",
     "openai": "^4.62.1",
